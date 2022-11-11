@@ -4,7 +4,7 @@ import {
   FontSizes,
   getFontColorFromThemeProps,
   getFontSizeFromThemeProps,
-} from "../../../../src/styles/utils";
+} from "../../../styles/utils";
 
 type TypographyType = {theme: DefaultTheme, fontColor?: FontColors, fontSize?: FontSizes }
 

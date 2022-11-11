@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { getColorFromThemeProps } from "../../../../src/styles/utils";
+import { getColorFromThemeProps } from "../../../styles/utils";
 
 const StyledCard = styled.div`
   width: 100%;
