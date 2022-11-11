@@ -5,6 +5,11 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  images: {
+    loader: "custom",
+    path: "https://avatars.githubusercontent.com/u",
+    domains: ["avatars.githubusercontent.com"],
+  },
 }
 
 module.exports = nextConfig

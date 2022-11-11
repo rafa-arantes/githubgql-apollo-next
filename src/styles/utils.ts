@@ -7,6 +7,14 @@ export type FontColors =
   | "fadedhighlight"
   | "white";
 
+export type Spacing = "none"
+  | "small"
+  | "medium"
+  | "mediumAlt"
+  | "xmedium"
+  | "large"
+  | "xlarge"
+
 export type FontSizes = "small" | "medium" | "large"; 
 
 export type Colors = "red" | "purple" | "background" | "container"
@@ -19,3 +27,7 @@ export const getFontSizeFromThemeProps = (
 
 export const getColorFromThemeProps = ({theme}: {theme: DefaultTheme}, color: Colors) =>
   theme.colors[color];
+
+  
+export const getSpacingFromThemeProps = ({theme}: {theme: DefaultTheme}, spacingKey?: Spacing) =>
+  theme.spacing[spacingKey || "none"];

@@ -4,9 +4,9 @@ import {
   FontSizes,
   getFontColorFromThemeProps,
   getFontSizeFromThemeProps,
-} from "../../../styles/utils";
+} from "../../../../src/styles/utils";
 
-type TypographyType = {theme: DefaultTheme, fontColor: FontColors, fontSize: FontSizes }
+type TypographyType = {theme: DefaultTheme, fontColor?: FontColors, fontSize?: FontSizes }
 
 export const TitleText = styled.h2`
   font-family: "Inter";

@@ -25,5 +25,14 @@ declare module 'styled-components' {
         container: string;
         background: string;
     };
+    spacing: {
+      none: string;
+      small: string,
+      medium: string,
+      mediumAlt: string,
+      xmedium: string,
+      large: string,
+      xlarge: string
+    }
   }
 }

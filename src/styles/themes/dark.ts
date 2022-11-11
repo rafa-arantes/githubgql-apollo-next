@@ -20,4 +20,13 @@ export const dark =  {
     container: '#262627',
     background: '#121212',
   },
+  spacing: {
+    none: "0px",
+    small: "8px",
+    medium: "16px",
+    mediumAlt: "18px",
+    xmedium: "26px",
+    large: "30px",
+    xlarge: "36px"
+  }
 };
