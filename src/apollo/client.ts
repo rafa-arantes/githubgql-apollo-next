@@ -5,6 +5,7 @@ import {
   NormalizedCacheObject,
 } from "@apollo/client";
 import { HttpLink } from "@apollo/client/link/http";
+import { read } from "fs";
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
@@ -17,7 +18,23 @@ const createApolloClient = () =>
         Authorization: "bearer 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",
       },
     }),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            search: {
+              merge(existing, incoming){
+                const newEdges = existing ? existing.edges : []
+                return {...incoming, edges: [...newEdges, ...incoming?.edges]}
+              },
+              read(existing){
+                return existing
+              }
+            }
+          }
+        }
+      }
+    }),
   });
 
 export const initializeApollo = (

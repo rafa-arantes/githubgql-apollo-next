@@ -6,25 +6,19 @@ import { Spacer, SpacerWrapper } from "../styled/Spacer";
 import { ContentText, TitleText } from "../styled/Typography";
 import Link from 'next/link';
 
-interface IssueCardProps {
-  title: string;
-  number: number;
+interface CommentCardProps {
   bodyText: string;
   avatarUrl: string;
   name: string;
   url: string;
-  updatedAt: string;
   substring?: number;
 }
 
-const IssueCard: FC<IssueCardProps> = ({
-  title,
+const CommentCard: FC<CommentCardProps> = ({
   bodyText,
-  number,
   avatarUrl,
   name,
   url,
-  updatedAt,
   substring,
 }) => {
   const formattedBodyText =
@@ -36,17 +30,15 @@ const IssueCard: FC<IssueCardProps> = ({
     <>
       <Spacer verticalSpacing="large" />
       <Card>
-        <Link href={`/issue/${number}`}><TitleText>{title}</TitleText></Link>
         <SpacerWrapper paddingVertical="medium">
           <ContentText>{formattedBodyText}</ContentText>
         </SpacerWrapper>
-        <FlexContainer justifyContent="space-between" alignItems="center">
+        <FlexContainer justifyContent="flex-start" alignItems="center">
           <Avatar imageUrl={avatarUrl} name={name} url={url} />
-          <ContentText>{updatedAt}</ContentText>
         </FlexContainer>
       </Card>
     </>
   );
 };
 
-export default memo(IssueCard);
+export default memo(CommentCard);

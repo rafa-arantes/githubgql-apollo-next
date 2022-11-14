@@ -25,7 +25,7 @@ type FlexContainerProps = {
 
 
 
-export const FlexContainer = styled.div`
+const FlexContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: ${(props: FlexContainerProps) =>
@@ -35,3 +35,5 @@ export const FlexContainer = styled.div`
   flex-direction: ${(props: FlexContainerProps) => props.flexDirection || "row"};
   flex-wrap: ${(props: FlexContainerProps) => props.flexWrap || "nowrap"}
 `;
+
+export default FlexContainer

@@ -10,15 +10,10 @@ interface AvatarProps {
   imageUrl: string;
 }
 
-/**
-* @author
-* @function @
-**/
-
 const Avatar:FC<AvatarProps> = ({url, name, imageUrl}) => {
   return (
     <StyledAvatarContainer>
-      <StyledImage width={27} height={27} alt="user_avatar" src={imageUrl} loader={(p) => imageUrl} priority/>
+      <StyledImage width={27} height={27} alt="user_avatar" src={imageUrl} loader={() => `${imageUrl}&s=27`} priority/>
       <a href={url} target="_blank" rel="noreferrer">
         <HighlightText>{name}</HighlightText>
       </a>
