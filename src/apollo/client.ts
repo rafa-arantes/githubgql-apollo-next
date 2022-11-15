@@ -5,7 +5,7 @@ import {
   NormalizedCacheObject,
 } from "@apollo/client";
 import { HttpLink } from "@apollo/client/link/http";
-import { read } from "fs";
+import { Issue, Query } from "./typePolicies";
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
@@ -20,19 +20,8 @@ const createApolloClient = () =>
     }),
     cache: new InMemoryCache({
       typePolicies: {
-        Query: {
-          fields: {
-            search: {
-              merge(existing, incoming){
-                const newEdges = existing ? existing.edges : []
-                return {...incoming, edges: [...newEdges, ...incoming?.edges]}
-              },
-              read(existing){
-                return existing
-              }
-            }
-          }
-        }
+        Issue,
+        Query
       }
     }),
   });

@@ -2,21 +2,26 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import React, { FC } from "react";
 import { initializeApollo } from "../../apollo/client";
-import Avatar from "../../components/Avatar";
 import CommentCard from "../../components/CommentCard";
+import { Header } from "../../components/Header";
 import IssueCard from "../../components/IssueCard";
-import Card from "../../components/styled/Card";
 import FlexContainer from "../../components/styled/FlexContainer";
 import { SpacerWrapper } from "../../components/styled/Spacer";
-import { ContentText } from "../../components/styled/Typography";
 import { issueQuery, useIssueData } from "../../hooks/useIssueData";
+import { usePagination } from "../../hooks/usePagination";
 
 interface IProps {
   number: number;
 }
 
 const Issue: FC<IProps> = (props) => {
-  const { data, loading, error } = useIssueData(props.number);
+  const { data, loading, error, fetchMore } = useIssueData(props.number);
+
+  const handlePagination = usePagination(
+    fetchMore,
+    loading,
+    data?.repository?.issue?.comments?.pageInfo.endCursor
+  );
 
   if (loading && !data) return null;
   if (error) return null;
@@ -25,8 +30,12 @@ const Issue: FC<IProps> = (props) => {
   return (
     <div>
       <Head>
-        <title>Issue</title>
+        <title>Issue: {issue.title}</title>
       </Head>
+
+      <FlexContainer flexWrap="wrap" justifyContent="center">
+        <Header title={`Issue`} />
+      </FlexContainer>
       <FlexContainer flexWrap="wrap" justifyContent="center">
         <IssueCard
           number={issue.number}
@@ -39,16 +48,28 @@ const Issue: FC<IProps> = (props) => {
         />
       </FlexContainer>
       <FlexContainer flexWrap="wrap" justifyContent="center">
-        {issue.comments.nodes.map(comment => <CommentCard avatarUrl={comment.author.avatarUrl} bodyText={comment.bodyText} name={comment.author.login} url={comment.author.url} key={comment.id} />)}
+        <Header title={`Answers`} />
       </FlexContainer>
       <FlexContainer flexWrap="wrap" justifyContent="center">
-        <SpacerWrapper paddingVertical="medium">
-          <button>
-            view more
-            {/* {loading ? "Loading" : "View More"} */}
-          </button>
-        </SpacerWrapper>
+        {issue.comments.nodes.map((comment) => (
+          <CommentCard
+            avatarUrl={comment.author.avatarUrl}
+            bodyText={comment.bodyText}
+            name={comment.author.login}
+            url={comment.author.url}
+            key={comment.id}
+          />
+        ))}
       </FlexContainer>
+      {issue.comments.pageInfo.hasNextPage && (
+        <FlexContainer flexWrap="wrap" justifyContent="center">
+          <SpacerWrapper paddingVertical="medium">
+            <button onClick={handlePagination}>
+              {loading ? "Loading" : "View More"}
+            </button>
+          </SpacerWrapper>
+        </FlexContainer>
+      )}
     </div>
   );
 };

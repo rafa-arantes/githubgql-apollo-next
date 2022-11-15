@@ -29,7 +29,6 @@ export const ContentText = styled.p`
 export const HighlightText = styled.p`
   font-family: "Inter";
   font-weight: 600;
-  line-height: 24px;
   word-break: break-word;
   font-size: ${(props: TypographyType) => getFontSizeFromThemeProps(props, props.fontSize || "medium")};
   color: ${(props: TypographyType) => getFontColorFromThemeProps(props, props.fontColor || "highlight")};

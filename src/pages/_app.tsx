@@ -10,7 +10,6 @@ import "@fontsource/inter";
 
 export default function App({ Component, pageProps }: AppProps) {
   const apolloClient = useApollo(pageProps.initialApolloState);
-  
   return (
     <ThemeProvider theme={dark}>
       <ApolloProvider client={apolloClient}>

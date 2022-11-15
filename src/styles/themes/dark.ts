@@ -15,7 +15,7 @@ export const dark =  {
     }
   },
   colors: {
-    red: "FF0000",
+    red: "#FF0000",
     purple: '#B2AEFF',
     container: '#262627',
     background: '#121212',

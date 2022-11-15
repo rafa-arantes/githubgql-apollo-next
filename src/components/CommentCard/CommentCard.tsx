@@ -11,7 +11,6 @@ interface CommentCardProps {
   avatarUrl: string;
   name: string;
   url: string;
-  substring?: number;
 }
 
 const CommentCard: FC<CommentCardProps> = ({
@@ -19,19 +18,14 @@ const CommentCard: FC<CommentCardProps> = ({
   avatarUrl,
   name,
   url,
-  substring,
 }) => {
-  const formattedBodyText =
-    substring && bodyText.length > substring
-      ? `${bodyText.substring(0, substring)}...`
-      : bodyText;
 
   return (
     <>
       <Spacer verticalSpacing="large" />
       <Card>
         <SpacerWrapper paddingVertical="medium">
-          <ContentText>{formattedBodyText}</ContentText>
+          <ContentText>{bodyText}</ContentText>
         </SpacerWrapper>
         <FlexContainer justifyContent="flex-start" alignItems="center">
           <Avatar imageUrl={avatarUrl} name={name} url={url} />

@@ -2,12 +2,12 @@ import { gql, useQuery } from "@apollo/client";
 import { useMemo } from "react";
 
 export const issuesQuery = gql`
-  query ($first: Int $after: String $query: String!) {
+  query ($after: String $query: String!) {
     search(
       query: $query
       type: ISSUE
       after: $after
-      first: $first
+      first: 5
     ) {
       pageInfo {
         hasNextPage
@@ -20,6 +20,7 @@ export const issuesQuery = gql`
             id
             number
             closed
+            state
             updatedAt
             title
             bodyText
@@ -46,6 +47,7 @@ type Node = {
   __typename: string;
   id: string;
   closed: boolean;
+  state: "OPEN" | "CLOSED";
   number: number;
   updatedAt: string;
   title: string;
@@ -68,7 +70,7 @@ export type RepositoryIssuesResponse = {
 
 export const issuesQueryString = (states?: string, searchTerm?: string) => `repo:facebook/react is:issue ${states ? `is:${states}` : ""} ${searchTerm ? `'${searchTerm}' in:title` : ""}`
 
-export const useIssuesData = (
+export const useRepositoryIssuesData = (
   after?: string,
   searchTerm?: string,
   states?: string
@@ -77,7 +79,6 @@ export const useIssuesData = (
   const variables = useMemo(
     () => ({
       variables: {
-        first: 5,
         after,
         query: issuesQueryString(states, searchTerm)
       },

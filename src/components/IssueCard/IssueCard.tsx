@@ -4,12 +4,16 @@ import Card from "../styled/Card";
 import FlexContainer from "../styled/FlexContainer";
 import { Spacer, SpacerWrapper } from "../styled/Spacer";
 import { ContentText, TitleText } from "../styled/Typography";
-import Link from 'next/link';
+import Link from "next/link";
+import { IssueCardHeader } from "./styles";
+import { Tag } from "../Tag/Tag";
 
 interface IssueCardProps {
   title: string;
-  number: number;
+  number?: number;
   bodyText: string;
+  showState?: boolean;
+  state?: string;
   avatarUrl: string;
   name: string;
   url: string;
@@ -21,6 +25,8 @@ const IssueCard: FC<IssueCardProps> = ({
   title,
   bodyText,
   number,
+  showState,
+  state,
   avatarUrl,
   name,
   url,
@@ -36,7 +42,20 @@ const IssueCard: FC<IssueCardProps> = ({
     <>
       <Spacer verticalSpacing="large" />
       <Card>
-        <Link href={`/issue/${number}`}><TitleText>{title}</TitleText></Link>
+        {showState && (
+          <IssueCardHeader>
+            <Tag background={state === "OPEN" ? "purple" : "red"}>
+              {state ? state : ""}
+            </Tag>
+          </IssueCardHeader>
+        )}
+        {number ? (
+          <Link href={`/issue/${number}`}>
+            <TitleText>{title}</TitleText>
+          </Link>
+        ) : (
+          <TitleText>{title}</TitleText>
+        )}
         <SpacerWrapper paddingVertical="medium">
           <ContentText>{formattedBodyText}</ContentText>
         </SpacerWrapper>

@@ -2,7 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import { useMemo } from "react";
 
 export const issueQuery = gql`
-  query ($number: Int!) {
+  query ($number: Int! $after: String) {
     repository(name: "react", owner: "facebook") {
       issue(number: $number) {
         author {
@@ -14,7 +14,11 @@ export const issueQuery = gql`
         bodyText
         title
         updatedAt
-        comments(first: 30) {
+        comments(first: 5 after: $after) {
+          pageInfo {
+            hasNextPage
+            endCursor
+          }
           nodes {
             id
             author {
@@ -52,10 +56,16 @@ type Node = {
   title: string;
   bodyText: string;
   author: Author;
-  comments: {nodes: Comments[]}
+  comments: {
+    pageInfo: {
+      hasNextPage: boolean;
+      endCursor: string;
+    };
+    nodes: Comments[]
+  }
 };
 
-export type RepositoryIssuesResponse = {
+export type IssueResponse = {
   repository: {
     issue: Node
   }
@@ -73,7 +83,7 @@ export const useIssueData = (number: number) => {
   );
 
   const { data, loading, error, fetchMore, refetch } =
-    useQuery<RepositoryIssuesResponse>(issueQuery, variables);
-
+    useQuery<IssueResponse>(issueQuery, variables);
+  
   return { data, loading, error, fetchMore, refetch };
 };
