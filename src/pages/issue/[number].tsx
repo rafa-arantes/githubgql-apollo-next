@@ -5,8 +5,9 @@ import { initializeApollo } from "../../apollo/client";
 import CommentCard from "../../components/CommentCard";
 import { Header } from "../../components/Header";
 import IssueCard from "../../components/IssueCard";
+import { Button } from "../../components/styled/Button/styles";
 import FlexContainer from "../../components/styled/FlexContainer";
-import { SpacerWrapper } from "../../components/styled/Spacer";
+import { Spacer, SpacerWrapper } from "../../components/styled/Spacer";
 import { issueQuery, useIssueData } from "../../hooks/useIssueData";
 import { usePagination } from "../../hooks/usePagination";
 
@@ -34,7 +35,7 @@ const Issue: FC<IProps> = (props) => {
       </Head>
 
       <FlexContainer flexWrap="wrap" justifyContent="center">
-        <Header title={`Issue`} />
+        <Header title={`Issue`} hasBackNavigation />
       </FlexContainer>
       <FlexContainer flexWrap="wrap" justifyContent="center">
         <IssueCard
@@ -61,15 +62,15 @@ const Issue: FC<IProps> = (props) => {
           />
         ))}
       </FlexContainer>
-      {issue.comments.pageInfo.hasNextPage && (
+      {issue.comments.pageInfo.hasNextPage ? (
         <FlexContainer flexWrap="wrap" justifyContent="center">
           <SpacerWrapper paddingVertical="medium">
-            <button onClick={handlePagination}>
+            <Button disabled={loading} onClick={handlePagination}>
               {loading ? "Loading" : "View More"}
-            </button>
+            </Button>
           </SpacerWrapper>
         </FlexContainer>
-      )}
+      ) : <Spacer verticalSpacing="large"/>}
     </div>
   );
 };

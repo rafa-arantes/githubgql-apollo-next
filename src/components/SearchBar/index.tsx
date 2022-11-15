@@ -1,5 +1,8 @@
 import React, { ChangeEvent, FC } from 'react'
+import Card from '../styled/Card'
 import FlexContainer from '../styled/FlexContainer'
+import { Spacer } from '../styled/Spacer'
+import { Input, Select } from './styles'
 
 interface IProps {
   searchByTerm: (e: ChangeEvent<HTMLInputElement>) => void
@@ -14,11 +17,14 @@ interface IProps {
 export const SearchBar:FC<IProps> = ({searchByTerm, searchByIssueState}) => {
   return (
     <FlexContainer flexWrap="wrap" justifyContent="center">
-      <input onChange={searchByTerm} />
-      <select onChange={searchByIssueState}>
-        <option value="OPEN">OPEN</option>
-        <option value="CLOSED">CLOSED</option>
-      </select>
+      <Spacer verticalSpacing='large'/>
+      <Card noPadding>
+        <Input onChange={searchByTerm} placeholder="Search by term..."/>
+        <Select onChange={searchByIssueState}>
+          <option value="OPEN">Open</option>
+          <option value="CLOSED">Closed</option>
+        </Select>
+      </Card>
     </FlexContainer>
    )
  }

@@ -5,8 +5,8 @@ import { issuesQueryString, RepositoryIssuesResponse } from "./useRepositoryIssu
 
 
 
-export const useSearchBar = (refetch: (variables?: Partial<OperationVariables> | undefined) => Promise<ApolloQueryResult<RepositoryIssuesResponse>>) => {
-  const [issueState, setIssueState] = useState<string>("");
+export const useIssuesSearch = (refetch: (variables?: Partial<OperationVariables> | undefined) => Promise<ApolloQueryResult<RepositoryIssuesResponse>>) => {
+  const [issueState, setIssueState] = useState<string>("OPEN");
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   const searchByTerm = useCallback((value: ChangeEvent<HTMLInputElement>) => {
@@ -25,5 +25,5 @@ export const useSearchBar = (refetch: (variables?: Partial<OperationVariables> |
 
   const searchByTermDebounced = debounce(searchByTerm, 400)
 
-  return { searchByIssueState, searchByTerm: searchByTermDebounced };
+  return { searchByIssueState, searchByTerm: searchByTermDebounced, searchString: issuesQueryString(issueState, searchTerm) };
 };

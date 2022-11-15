@@ -8,23 +8,27 @@ import {
 } from "../hooks/useRepositoryIssuesData";
 import FlexContainer from "../components/styled/FlexContainer";
 import { useCallback } from "react";
-import { SpacerWrapper } from "../components/styled/Spacer";
-import { useSearchBar } from "../hooks/useSearchBar";
+import { Spacer, SpacerWrapper } from "../components/styled/Spacer";
+import { useIssuesSearch } from "../hooks/useIssuesSearch";
 import { usePagination } from "../hooks/usePagination";
 import { Header } from "../components/Header";
 import { SearchBar } from "../components/SearchBar";
+import { Button } from "../components/styled/Button/styles";
 
 const SUBSTRING_CHARACTERS = 300;
 
 const Home = () => {
   const { data, loading, error, fetchMore, refetch } =
     useRepositoryIssuesData();
-  const { searchByIssueState, searchByTerm } = useSearchBar(refetch);
+    
+  const { searchByIssueState, searchByTerm, searchString } =
+    useIssuesSearch(refetch);
 
   const handlePagination = usePagination(
     fetchMore,
     loading,
-    data?.search.pageInfo.endCursor
+    data?.search.pageInfo.endCursor,
+    { query: searchString }
   );
 
   if (loading && !data) return null;
@@ -42,7 +46,7 @@ const Home = () => {
         searchByTerm={searchByTerm}
       />
       <FlexContainer flexWrap="wrap" justifyContent="center">
-        <Header title={`Issues`} />
+        <Header title="Issues" />
       </FlexContainer>
       <FlexContainer flexWrap="wrap" justifyContent="center">
         {edges.map(
@@ -65,15 +69,15 @@ const Home = () => {
           )
         )}
       </FlexContainer>
-      {data?.search.pageInfo.hasNextPage && (
+      {data?.search.pageInfo.hasNextPage ? (
         <FlexContainer flexWrap="wrap" justifyContent="center">
           <SpacerWrapper paddingVertical="medium">
-            <button onClick={handlePagination}>
+            <Button disabled={loading} onClick={handlePagination}>
               {loading ? "Loading" : "View More"}
-            </button>
+            </Button>
           </SpacerWrapper>
         </FlexContainer>
-      )}
+      ) : <Spacer verticalSpacing="large"/>}
     </div>
   );
 };

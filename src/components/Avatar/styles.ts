@@ -6,7 +6,7 @@ export const StyledAvatarContainer = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: center;
-/`
+`
 
 export const StyledImage = styled(Image)`
   margin-right: 16px;
