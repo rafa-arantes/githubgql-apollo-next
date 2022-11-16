@@ -1,26 +1,28 @@
 import Head from "next/head";
-import IssueCard from "../components/IssueCard";
-import { initializeApollo } from "../apollo/client";
+
 import {
-  useRepositoryIssuesData,
-  issuesQuery,
-  issuesQueryString,
-} from "../hooks/useRepositoryIssuesData";
-import FlexContainer from "../components/styled/FlexContainer";
-import { useCallback } from "react";
-import { Spacer, SpacerWrapper } from "../components/styled/Spacer";
-import { useIssuesSearch } from "../hooks/useIssuesSearch";
-import { usePagination } from "../hooks/usePagination";
-import { Header } from "../components/Header";
-import { SearchBar } from "../components/SearchBar";
-import { Button } from "../components/styled/Button/styles";
+  createSearchIssuesQueryString,
+  SEARCH_ISSUES_QUERY,
+  STATE_OPEN,
+  useSearchIssuesQuery,
+} from "@hooks/useSearchIssuesQuery";
+import { initializeApollo } from "apollo/client";
+import { useIssuesSearch } from "@hooks/useIssuesSearch";
+import { usePagination } from "@hooks/usePagination";
+import { Spacer, SpacerWrapper } from "@components/styled/Spacer";
+import FlexContainer from "@components/styled/FlexContainer";
+import Header from "@components/Header";
+import IssueCard from "@components/IssueCard";
+import Loading from "@components/Loading/Loading";
+import SearchBar from "@components/SearchBar";
+import StyledButton from "@components/styled/StyledButton";
+import { GetServerSideProps } from "next";
 
 const SUBSTRING_CHARACTERS = 300;
 
 const Home = () => {
-  const { data, loading, error, fetchMore, refetch } =
-    useRepositoryIssuesData();
-    
+  const { data, loading, error, fetchMore, refetch } = useSearchIssuesQuery();
+
   const { searchByIssueState, searchByTerm, searchString } =
     useIssuesSearch(refetch);
 
@@ -31,64 +33,76 @@ const Home = () => {
     { query: searchString }
   );
 
-  if (loading && !data) return null;
-  if (error) return null;
+  if (error) return <div>error</div>;
 
-  const { edges } = data!.search;
   return (
     <div>
       <Head>
         <title>Github Repos</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      {loading && <Loading />}
+
       <SearchBar
         searchByIssueState={searchByIssueState}
         searchByTerm={searchByTerm}
       />
-      <FlexContainer flexWrap="wrap" justifyContent="center">
-        <Header title="Issues" />
-      </FlexContainer>
-      <FlexContainer flexWrap="wrap" justifyContent="center">
-        {edges.map(
-          ({
-            node: { number, id, author, bodyText, title, updatedAt, state },
-          }) => (
-            <IssueCard
-              key={id}
-              number={number}
-              avatarUrl={author.avatarUrl}
-              bodyText={bodyText}
-              name={author.login}
-              state={state}
-              title={title}
-              updatedAt={updatedAt}
-              url={author.url}
-              substring={SUBSTRING_CHARACTERS}
-              showState
-            />
-          )
-        )}
-      </FlexContainer>
-      {data?.search.pageInfo.hasNextPage ? (
+      {data && (
+        <>
+          <FlexContainer flexWrap="wrap" justifyContent="center">
+            <Header title="Issues" />
+          </FlexContainer>
+          <FlexContainer flexWrap="wrap" justifyContent="center">
+            {data.search.edges.map(
+              ({
+                node: { number, id, author, bodyText, title, updatedAt, state },
+              }) => (
+                <IssueCard
+                  key={id}
+                  number={number}
+                  avatarUrl={author.avatarUrl}
+                  bodyText={bodyText}
+                  name={author.login}
+                  state={state}
+                  title={title}
+                  updatedAt={updatedAt}
+                  url={author.url}
+                  substring={SUBSTRING_CHARACTERS}
+                  showState
+                />
+              )
+            )}
+          </FlexContainer>
+        </>
+      )}
+      {data?.search.pageInfo.hasNextPage && (
         <FlexContainer flexWrap="wrap" justifyContent="center">
           <SpacerWrapper paddingVertical="medium">
-            <Button disabled={loading} onClick={handlePagination}>
+            <StyledButton disabled={loading} onClick={handlePagination}>
               {loading ? "Loading" : "View More"}
-            </Button>
+            </StyledButton>
           </SpacerWrapper>
         </FlexContainer>
-      ) : <Spacer verticalSpacing="large"/>}
+      )}
+      <Spacer verticalSpacing="large" />
     </div>
   );
 };
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const serverReq = !req.url?.startsWith("/_next");
+  if (!serverReq)
+    return {
+      props: {},
+    };
+    
   const apolloClient = initializeApollo();
   try {
     await apolloClient.query({
-      query: issuesQuery,
+      query: SEARCH_ISSUES_QUERY,
       variables: {
-        query: issuesQueryString(undefined, "OPEN"),
+        after: undefined,
+        query: createSearchIssuesQueryString(STATE_OPEN, undefined),
       },
     });
 

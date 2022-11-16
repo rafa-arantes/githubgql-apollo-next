@@ -1,12 +1,16 @@
 import React, { FC, memo } from "react";
-import Avatar from "../Avatar";
-import Card from "../styled/Card";
-import FlexContainer from "../styled/FlexContainer";
-import { Spacer, SpacerWrapper } from "../styled/Spacer";
-import { ContentText, TitleText } from "../styled/Typography";
 import Link from "next/link";
+
+import { STATE_OPEN } from "@hooks/useSearchIssuesQuery";
+import Card from "@components/styled/StyledCard";
+import FlexContainer from "@components/styled/FlexContainer";
+import { Spacer, SpacerWrapper } from "@components/styled/Spacer";
+import { ContentText, TitleText } from "@components/styled/Typography";
+
+import Tag from "../Tag";
 import { IssueCardHeader } from "./styles";
-import { Tag } from "../Tag/Tag";
+import Avatar from "../Avatar";
+
 
 interface IssueCardProps {
   title: string;
@@ -44,7 +48,7 @@ const IssueCard: FC<IssueCardProps> = ({
       <Card>
         {showState && (
           <IssueCardHeader>
-            <Tag background={state === "OPEN" ? "purple" : "red"}>
+            <Tag background={state === STATE_OPEN ? "purple" : "red"}>
               {state ? state : ""}
             </Tag>
           </IssueCardHeader>

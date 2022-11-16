@@ -1,8 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
 import { useMemo } from "react";
 
-export const issuesQuery = gql`
-  query ($after: String $query: String!) {
+export const SEARCH_ISSUES_QUERY = gql`
+  query SearchIssues($after: String $query: String!) {
     search(
       query: $query
       type: ISSUE
@@ -68,30 +68,27 @@ export type RepositoryIssuesResponse = {
   };
 };
 
-export const issuesQueryString = (states?: string, searchTerm?: string) => `repo:facebook/react is:issue ${states ? `is:${states}` : ""} ${searchTerm ? `'${searchTerm}' in:title` : ""}`
+export const [STATE_OPEN, STATE_CLOSED] = ["OPEN", "CLOSED"]
 
-export const useRepositoryIssuesData = (
+export const createSearchIssuesQueryString = (states?: string, searchTerm?: string) => `repo:facebook/react is:issue ${states ? `is:${states}` : ""} ${searchTerm ? `'${searchTerm}' in:title` : ""}`
+
+export const useSearchIssuesQuery = (
   after?: string,
   searchTerm?: string,
-  states?: string
+  states: string = STATE_OPEN
 ) => {
-
-  const variables = useMemo(
-    () => ({
-      variables: {
-        after,
-        query: issuesQueryString(states, searchTerm)
-      },
-      notifyOnNetworkStatusChange: true
-    }),
-    [after, states, searchTerm]
-  );
 
   const { data, loading, error, fetchMore, refetch } =
     useQuery<RepositoryIssuesResponse>(
-      issuesQuery,
-      variables,
-    );
-
-  return { data, loading, error, fetchMore, refetch };
+      SEARCH_ISSUES_QUERY,
+      {
+      variables: {
+        after,
+        query: createSearchIssuesQueryString(states, searchTerm)
+      },
+      notifyOnNetworkStatusChange: true
+    },
+  );
+    
+  return { data, loading, error, fetchMore , refetch};
 };

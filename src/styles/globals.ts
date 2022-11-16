@@ -1,4 +1,5 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
+import { getColorFromThemeProps } from "./utils";
 
 export default createGlobalStyle`
   * {
@@ -8,7 +9,7 @@ export default createGlobalStyle`
     text-decoration: none;
   }
   body {
-    background: ${props => props.theme.colors.background};
+    background: ${(props) => getColorFromThemeProps(props, "background")};
     font-size: 14px;
     font-family: "Inter", sans-serif;
   }

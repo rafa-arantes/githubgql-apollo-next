@@ -1,22 +1,24 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import React, { FC } from "react";
-import { initializeApollo } from "../../apollo/client";
-import CommentCard from "../../components/CommentCard";
-import { Header } from "../../components/Header";
-import IssueCard from "../../components/IssueCard";
-import { Button } from "../../components/styled/Button/styles";
-import FlexContainer from "../../components/styled/FlexContainer";
-import { Spacer, SpacerWrapper } from "../../components/styled/Spacer";
-import { issueQuery, useIssueData } from "../../hooks/useIssueData";
-import { usePagination } from "../../hooks/usePagination";
+import { initializeApollo } from "apollo/client";
+import CommentCard from "@components/CommentCard";
+import Header from "@components/Header";
+import IssueCard from "@components/IssueCard";
+import Loading from "@components/Loading";
+import StyledButton from "@components/styled/StyledButton";
+import FlexContainer from "@components/styled/FlexContainer";
+import { Spacer, SpacerWrapper } from "@components/styled/Spacer";
+import { ISSUE_QUERY, useIssueQuery } from "@hooks/useIssueQuery";
+import { usePagination } from "@hooks/usePagination";
+import { Error } from "@components/Error/Error";
 
-interface IProps {
+interface IssueProps {
   number: number;
 }
 
-const Issue: FC<IProps> = (props) => {
-  const { data, loading, error, fetchMore } = useIssueData(props.number);
+const Issue: FC<IssueProps> = (props) => {
+  const { data, loading, error, fetchMore } = useIssueQuery(props.number);
 
   const handlePagination = usePagination(
     fetchMore,
@@ -24,75 +26,96 @@ const Issue: FC<IProps> = (props) => {
     data?.repository?.issue?.comments?.pageInfo.endCursor
   );
 
-  if (loading && !data) return null;
-  if (error) return null;
-
-  const { issue } = data!.repository;
   return (
     <div>
       <Head>
-        <title>Issue: {issue.title}</title>
+        <title key="title">Issue</title>
       </Head>
+      {loading && <Loading />}
+      <FlexContainer flexWrap="wrap" justifyContent="center">
+        <Header title="Issue" hasBackNavigation />
+      </FlexContainer>
 
-      <FlexContainer flexWrap="wrap" justifyContent="center">
-        <Header title={`Issue`} hasBackNavigation />
-      </FlexContainer>
-      <FlexContainer flexWrap="wrap" justifyContent="center">
-        <IssueCard
-          number={issue.number}
-          avatarUrl={issue.author.avatarUrl}
-          bodyText={issue.bodyText}
-          name={issue.author.login}
-          title={issue.title}
-          updatedAt={issue.updatedAt}
-          url={issue.author.url}
-        />
-      </FlexContainer>
-      <FlexContainer flexWrap="wrap" justifyContent="center">
-        <Header title={`Answers`} />
-      </FlexContainer>
-      <FlexContainer flexWrap="wrap" justifyContent="center">
-        {issue.comments.nodes.map((comment) => (
-          <CommentCard
-            avatarUrl={comment.author.avatarUrl}
-            bodyText={comment.bodyText}
-            name={comment.author.login}
-            url={comment.author.url}
-            key={comment.id}
-          />
-        ))}
-      </FlexContainer>
-      {issue.comments.pageInfo.hasNextPage ? (
+      {error && <Error />}
+
+      {data && (
+        <>
+          <FlexContainer flexWrap="wrap" justifyContent="center">
+            <IssueCard
+              number={data.repository.issue.number}
+              avatarUrl={data.repository.issue.author.avatarUrl}
+              bodyText={data.repository.issue.bodyText}
+              name={data.repository.issue.author.login}
+              title={data.repository.issue.title}
+              updatedAt={data.repository.issue.updatedAt}
+              url={data.repository.issue.author.url}
+            />
+          </FlexContainer>
+          <FlexContainer flexWrap="wrap" justifyContent="center">
+            <Header title="Answers" />
+          </FlexContainer>
+          <FlexContainer flexWrap="wrap" justifyContent="center">
+            {data.repository.issue.comments.nodes.map((comment) => (
+              <CommentCard
+                avatarUrl={comment.author.avatarUrl}
+                bodyText={comment.bodyText}
+                name={comment.author.login}
+                url={comment.author.url}
+                key={comment.id}
+              />
+            ))}
+          </FlexContainer>
+        </>
+      )}
+      {data?.repository.issue.comments.pageInfo.hasNextPage && (
         <FlexContainer flexWrap="wrap" justifyContent="center">
           <SpacerWrapper paddingVertical="medium">
-            <Button disabled={loading} onClick={handlePagination}>
+            <StyledButton disabled={loading} onClick={handlePagination}>
               {loading ? "Loading" : "View More"}
-            </Button>
+            </StyledButton>
           </SpacerWrapper>
         </FlexContainer>
-      ) : <Spacer verticalSpacing="large"/>}
+      )}
+      <Spacer verticalSpacing="large" />
     </div>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  query,
+  req,
+}) => {
+  const serverReq = !req.url?.startsWith("/_next");
+  if (!serverReq)
+    return {
+      props: {
+        number: Number(query.number),
+      },
+    };
+
   const apolloClient = initializeApollo();
   try {
+
     await apolloClient.query({
-      query: issueQuery,
+      query: ISSUE_QUERY,
       variables: {
-        number: Number(context.query.number),
+        number: Number(query.number),
       },
     });
 
     return {
       props: {
-        number: Number(context.query.number),
+        number: Number(query.number),
         initialApolloState: apolloClient.cache.extract(),
       },
     };
+
   } catch (error) {
-    return { props: {} };
+    return {
+      props: {
+        number: Number(query.number),
+      },
+    };
   }
 };
 

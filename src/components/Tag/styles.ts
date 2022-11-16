@@ -1,5 +1,5 @@
 import styled, { DefaultTheme } from "styled-components";
-import { Colors } from "../../styles/utils";
+import { Colors, getColorFromThemeProps, getSpacingFromThemeProps } from "../../styles/utils";
 
 type TagBodyProps = {
   theme: DefaultTheme;
@@ -7,11 +7,10 @@ type TagBodyProps = {
 };
 
 export const TagBody = styled.div`
-  padding-top: ${(props: TagBodyProps) => props.theme.spacing.small};
-  padding-bottom: ${(props: TagBodyProps) => props.theme.spacing.small};
-  padding-left: ${(props: TagBodyProps) => props.theme.spacing.medium};
-  padding-right: ${(props: TagBodyProps) => props.theme.spacing.medium};
-  background-color: ${(props: TagBodyProps) =>
-    props.theme.colors[props.background]};
+  padding-top: ${(props: TagBodyProps) => getSpacingFromThemeProps(props, "small")};
+  padding-bottom: ${(props: TagBodyProps) => getSpacingFromThemeProps(props, "small")};
+  padding-left: ${(props: TagBodyProps) => getSpacingFromThemeProps(props, "medium")};
+  padding-right: ${(props: TagBodyProps) => getSpacingFromThemeProps(props, "medium")};
+  background-color: ${(props: TagBodyProps) => getColorFromThemeProps(props, props.background)};
   border-radius: 5px
 `;

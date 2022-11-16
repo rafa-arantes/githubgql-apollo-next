@@ -1,38 +1,37 @@
-import 'styled-components';
-import {dark} from './themes/dark'
+import "styled-components";
+import { dark } from "./themes/dark";
 
-
-declare module 'styled-components' {
+declare module "styled-components" {
   export interface DefaultTheme {
     title: string;
     font: {
-        color: {
-            content: string;
-            title: string;
-            highlight: string;
-            fadedhighlight: string;
-            white: string;
-        };
-        size: {
-            small: string;
-            medium: string;
-            large: string;
-        };
+      color: {
+        content: string;
+        title: string;
+        highlight: string;
+        fadedhighlight: string;
+        white: string;
+      };
+      size: {
+        small: string;
+        medium: string;
+        large: string;
+      };
     };
     colors: {
-        red: string;
-        purple: string;
-        container: string;
-        background: string;
+      red: string;
+      purple: string;
+      container: string;
+      background: string;
     };
     spacing: {
       none: string;
-      small: string,
-      medium: string,
-      mediumAlt: string,
-      xmedium: string,
-      large: string,
-      xlarge: string
-    }
+      small: string;
+      medium: string;
+      mediumAlt: string;
+      xmedium: string;
+      large: string;
+      xlarge: string;
+    };
   }
 }

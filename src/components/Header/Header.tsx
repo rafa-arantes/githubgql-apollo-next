@@ -1,16 +1,16 @@
 import { useRouter } from "next/router";
 import React, { FC } from "react";
-import FlexContainer from "../styled/FlexContainer";
-import { Spacer, SpacerWrapper } from "../styled/Spacer";
-import { TitleText } from "../styled/Typography";
-import { HeaderLineDivider, HeaderWrapper } from "./styles";
+import FlexContainer from "@components/styled/FlexContainer";
+import { Spacer, SpacerWrapper } from "@components/styled/Spacer";
+import { TitleText } from "@components/styled/Typography";
+import { HeaderLineDivider, HeaderWrapper, ReturnButton } from "./styles";
 
 type HeaderProps = {
   title: string;
   hasBackNavigation?: boolean;
 };
 
-export const Header = ({ title, hasBackNavigation }: HeaderProps) => {
+const Header = ({ title, hasBackNavigation }: HeaderProps) => {
   const router = useRouter();
   return (
     <HeaderWrapper>
@@ -18,7 +18,7 @@ export const Header = ({ title, hasBackNavigation }: HeaderProps) => {
       <SpacerWrapper paddingVertical="medium">
         <FlexContainer>
           {hasBackNavigation && (
-            <TitleText onClick={router.back}>{"<"}</TitleText>
+            <ReturnButton onClick={router.back}>{"<"}</ReturnButton>
           )}
           <TitleText fontColor="title" fontSize="small">
             {title}
@@ -29,3 +29,5 @@ export const Header = ({ title, hasBackNavigation }: HeaderProps) => {
     </HeaderWrapper>
   );
 };
+
+export default Header

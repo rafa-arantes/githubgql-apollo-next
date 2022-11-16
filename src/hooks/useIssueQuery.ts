@@ -1,8 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
-import { useMemo } from "react";
 
-export const issueQuery = gql`
-  query ($number: Int! $after: String) {
+export const ISSUE_QUERY = gql`
+  query GetIssue($number: Int! $after: String) {
     repository(name: "react", owner: "facebook") {
       issue(number: $number) {
         author {
@@ -71,19 +70,15 @@ export type IssueResponse = {
   }
 };
 
-export const useIssueData = (number: number) => {
-  const variables = useMemo(
-    () => ({
+export const useIssueQuery = (number: number) => {
+
+  const { data, loading, error, fetchMore, refetch } =
+    useQuery<IssueResponse>(ISSUE_QUERY, {
       variables: {
         number,
       },
       notifyOnNetworkStatusChange: true,
-    }),
-    [number]
-  );
-
-  const { data, loading, error, fetchMore, refetch } =
-    useQuery<IssueResponse>(issueQuery, variables);
+    });
   
   return { data, loading, error, fetchMore, refetch };
 };

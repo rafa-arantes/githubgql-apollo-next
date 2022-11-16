@@ -9,6 +9,15 @@
     "jsx": "preserve",
     "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@pages/*": ["src/pages/*"],
+      "@styles/*": ["src/styles/*"],
+      "apollo/*": ["src/apollo/*"],
+
+    },
     "moduleResolution": "node",
     "noEmit": true,
     "resolveJsonModule": true,

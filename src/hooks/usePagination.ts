@@ -4,7 +4,7 @@ import { useCallback } from "react";
 type FetchMoreVariables = {
   variables: {
     after: string;
-    [variables: string]: string;
+    [extraVariables: string]: string;
   };
 };
 
@@ -14,7 +14,7 @@ export const usePagination = (
   ) => Promise<ApolloQueryResult<TData>>,
   loading: boolean,
   after?: string,
-  variables?: { [otherVariables: string]: string }
+  variables?: { [extraVariables: string]: string }
 ) => {
   const handlePagination = useCallback(() => {
     if (loading || !after) return;

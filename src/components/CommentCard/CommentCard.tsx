@@ -1,10 +1,10 @@
 import React, { FC, memo } from "react";
 import Avatar from "../Avatar";
-import Card from "../styled/Card";
-import FlexContainer from "../styled/FlexContainer";
-import { Spacer, SpacerWrapper } from "../styled/Spacer";
-import { ContentText, TitleText } from "../styled/Typography";
-import Link from 'next/link';
+import Card from "@components/styled/StyledCard";
+import FlexContainer from "@components/styled/FlexContainer";
+import { Spacer, SpacerWrapper } from "@components/styled/Spacer";
+import { ContentText, TitleText } from "@components/styled/Typography";
+import Link from "next/link";
 
 interface CommentCardProps {
   bodyText: string;
@@ -19,7 +19,6 @@ const CommentCard: FC<CommentCardProps> = ({
   name,
   url,
 }) => {
-
   return (
     <>
       <Spacer verticalSpacing="large" />

@@ -21,8 +21,8 @@ const createApolloClient = () =>
     cache: new InMemoryCache({
       typePolicies: {
         Issue,
-        Query
-      }
+        Query,
+      },
     }),
   });
 
@@ -38,4 +38,5 @@ export const initializeApollo = (
   return _apolloClient;
 };
 
-export const useApollo = (initialState: NormalizedCacheObject | null) => useMemo(() => initializeApollo(initialState), [initialState])
+export const useApollo = (initialState: NormalizedCacheObject | null) =>
+  useMemo(() => initializeApollo(initialState), [initialState]);

@@ -1,5 +1,5 @@
-export const dark =  {
-  title: 'dark',
+export const dark = {
+  title: "dark",
   font: {
     color: {
       content: "#A8A8A9",
@@ -11,14 +11,14 @@ export const dark =  {
     size: {
       small: "12px",
       medium: "14px",
-      large: "20px"
-    }
+      large: "20px",
+    },
   },
   colors: {
     red: "#FF0000",
-    purple: '#B2AEFF',
-    container: '#262627',
-    background: '#121212',
+    purple: "#B2AEFF",
+    container: "#262627",
+    background: "#121212",
   },
   spacing: {
     none: "0px",
@@ -27,6 +27,6 @@ export const dark =  {
     mediumAlt: "18px",
     xmedium: "26px",
     large: "30px",
-    xlarge: "36px"
-  }
+    xlarge: "36px",
+  },
 };
