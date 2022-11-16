@@ -1,5 +1,5 @@
 import FlexContainer from "@components/styled/FlexContainer";
-import { Spacer, SpacerWrapper } from "@components/styled/Spacer";
+import { Spacer } from "@components/styled/Spacer";
 import StyledCard from "@components/styled/StyledCard";
 import {
   ContentText,

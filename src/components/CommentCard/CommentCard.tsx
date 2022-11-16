@@ -3,8 +3,7 @@ import Avatar from "../Avatar";
 import Card from "@components/styled/StyledCard";
 import FlexContainer from "@components/styled/FlexContainer";
 import { Spacer, SpacerWrapper } from "@components/styled/Spacer";
-import { ContentText, TitleText } from "@components/styled/Typography";
-import Link from "next/link";
+import { ContentText } from "@components/styled/Typography";
 
 interface CommentCardProps {
   bodyText: string;

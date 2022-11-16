@@ -10,7 +10,7 @@ type HeaderProps = {
   hasBackNavigation?: boolean;
 };
 
-const Header = ({ title, hasBackNavigation }: HeaderProps) => {
+const Header: FC<HeaderProps> = ({ title, hasBackNavigation }: HeaderProps) => {
   const router = useRouter();
   return (
     <HeaderWrapper>
