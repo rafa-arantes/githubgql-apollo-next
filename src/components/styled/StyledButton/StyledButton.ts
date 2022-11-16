@@ -4,7 +4,7 @@ import {
   getColorFromThemeProps,
   getFontSizeFromThemeProps,
   getFontColorFromThemeProps,
-} from "../../../styles/utils";
+} from "@styles/utils";
 
 type ButtonProps = {
   theme: DefaultTheme;

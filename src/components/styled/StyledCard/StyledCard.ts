@@ -1,5 +1,5 @@
 import styled, { DefaultTheme } from "styled-components";
-import { getColorFromThemeProps } from "../../../styles/utils";
+import { getColorFromThemeProps } from "@styles/utils";
 
 type StyledCardProps = {
   noPadding?: boolean;

@@ -1,5 +1,5 @@
 import styled, { DefaultTheme } from "styled-components";
-import { getSpacingFromThemeProps, Spacing } from "../../../styles/utils";
+import { getSpacingFromThemeProps, Spacing } from "@styles/utils";
 
 type SpacerProps = {
   theme: DefaultTheme;

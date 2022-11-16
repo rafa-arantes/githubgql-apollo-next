@@ -1,4 +1,4 @@
-import styled, { DefaultTheme, ThemedStyledProps } from "styled-components";
+import styled, { DefaultTheme } from "styled-components";
 import {
   FontColors,
   FontSizes,
