@@ -15,7 +15,7 @@ const createApolloClient = () =>
     link: new HttpLink({
       uri: "https://api.github.com/graphql",
       headers: {
-        Authorization: `bearer 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`,
+        Authorization: `bearer ${typeof window === "undefined" ? process.env.GH_PERSONAL_TOKEN : localStorage.getItem('GH_PERSONAL_TOKEN')}`,
       },
     }),
     cache: new InMemoryCache({
