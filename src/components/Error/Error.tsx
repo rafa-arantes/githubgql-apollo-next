@@ -9,7 +9,11 @@ import {
 import Link from "next/link";
 import React, { FC } from "react";
 
-export const Error: FC = () => {
+type ErrorProps = {
+  retryLater?: boolean;
+};
+
+const Error: FC<ErrorProps> = ({ retryLater }) => {
   return (
     <>
       <Spacer verticalSpacing="large" />
@@ -21,11 +25,15 @@ export const Error: FC = () => {
             There was an error trying to execute your request :(
           </HighlightText>
           <ContentText>
-            Please, refresh your page or go back to home page clicking{" "}
-            <Link href="/">here</Link>
+            {retryLater
+              ? "Please, try again later"
+              : `Please, refresh your page or go back to home page clicking `}
+            {!retryLater && <Link href="/">here</Link>}
           </ContentText>
         </StyledCard>
       </FlexContainer>
     </>
   );
 };
+
+export default Error

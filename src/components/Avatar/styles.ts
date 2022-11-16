@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export const StyledAvatarContainer = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
 `;
 

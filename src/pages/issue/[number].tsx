@@ -11,7 +11,7 @@ import FlexContainer from "@components/styled/FlexContainer";
 import { Spacer, SpacerWrapper } from "@components/styled/Spacer";
 import { ISSUE_QUERY, useIssueQuery } from "@hooks/useIssueQuery";
 import { usePagination } from "@hooks/usePagination";
-import { Error } from "@components/Error/Error";
+import Error from "@components/Error";
 
 interface IssueProps {
   number: number;
@@ -31,7 +31,9 @@ const Issue: FC<IssueProps> = (props) => {
       <Head>
         <title key="title">Issue</title>
       </Head>
+
       {loading && <Loading />}
+
       <FlexContainer flexWrap="wrap" justifyContent="center">
         <Header title="Issue" hasBackNavigation />
       </FlexContainer>
@@ -85,8 +87,8 @@ export const getServerSideProps: GetServerSideProps = async ({
   query,
   req,
 }) => {
-  const serverReq = !req.url?.startsWith("/_next");
-  if (!serverReq)
+  const requestComesFromServer = !req.url?.startsWith("/_next");
+  if (!requestComesFromServer)
     return {
       props: {
         number: Number(query.number),
@@ -95,7 +97,6 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   const apolloClient = initializeApollo();
   try {
-
     await apolloClient.query({
       query: ISSUE_QUERY,
       variables: {
@@ -109,7 +110,6 @@ export const getServerSideProps: GetServerSideProps = async ({
         initialApolloState: apolloClient.cache.extract(),
       },
     };
-
   } catch (error) {
     return {
       props: {

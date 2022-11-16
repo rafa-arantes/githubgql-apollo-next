@@ -10,6 +10,7 @@ import { ContentText, TitleText } from "@components/styled/Typography";
 import Tag from "../Tag";
 import { IssueCardHeader } from "./styles";
 import Avatar from "../Avatar";
+import dayjs from "dayjs";
 
 
 interface IssueCardProps {
@@ -65,7 +66,7 @@ const IssueCard: FC<IssueCardProps> = ({
         </SpacerWrapper>
         <FlexContainer justifyContent="space-between" alignItems="center">
           <Avatar imageUrl={avatarUrl} name={name} url={url} />
-          <ContentText>{updatedAt}</ContentText>
+          <ContentText>{dayjs(updatedAt).format('MM/DD/YYYY HH:mm:ss')}</ContentText>
         </FlexContainer>
       </Card>
     </>

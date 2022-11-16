@@ -17,6 +17,7 @@ import Loading from "@components/Loading/Loading";
 import SearchBar from "@components/SearchBar";
 import StyledButton from "@components/styled/StyledButton";
 import { GetServerSideProps } from "next";
+import Error from "@components/Error";
 
 const SUBSTRING_CHARACTERS = 300;
 
@@ -33,8 +34,6 @@ const Home = () => {
     { query: searchString }
   );
 
-  if (error) return <div>error</div>;
-
   return (
     <div>
       <Head>
@@ -47,6 +46,7 @@ const Home = () => {
         searchByIssueState={searchByIssueState}
         searchByTerm={searchByTerm}
       />
+      {error && <Error retryLater />}
       {data && (
         <>
           <FlexContainer flexWrap="wrap" justifyContent="center">
@@ -90,12 +90,12 @@ const Home = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const serverReq = !req.url?.startsWith("/_next");
-  if (!serverReq)
+  const requestComesFromServer = !req.url?.startsWith("/_next");
+  if (!requestComesFromServer)
     return {
       props: {},
     };
-    
+
   const apolloClient = initializeApollo();
   try {
     await apolloClient.query({

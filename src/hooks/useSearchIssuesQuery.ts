@@ -55,7 +55,7 @@ type Node = {
   author: Author;
 };
 
-export type RepositoryIssuesResponse = {
+export type SearchIssuesResponse = {
   search: {
     pageInfo: {
       hasNextPage: boolean;
@@ -79,7 +79,7 @@ export const useSearchIssuesQuery = (
 ) => {
 
   const { data, loading, error, fetchMore, refetch } =
-    useQuery<RepositoryIssuesResponse>(
+    useQuery<SearchIssuesResponse>(
       SEARCH_ISSUES_QUERY,
       {
       variables: {

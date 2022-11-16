@@ -1,11 +1,9 @@
 import { ApolloQueryResult, OperationVariables } from "@apollo/client";
 import { debounce } from "lodash";
 import {  useState, useRef, ChangeEvent, useCallback } from "react";
-import { createSearchIssuesQueryString, RepositoryIssuesResponse, STATE_OPEN } from "./useSearchIssuesQuery";
+import { createSearchIssuesQueryString, SearchIssuesResponse, STATE_OPEN } from "./useSearchIssuesQuery";
 
-
-
-export const useIssuesSearch = (refetch: (variables?: Partial<OperationVariables> | undefined) => Promise<ApolloQueryResult<RepositoryIssuesResponse>>) => {
+export const useIssuesSearch = (refetch: (variables?: Partial<OperationVariables> | undefined) => Promise<ApolloQueryResult<SearchIssuesResponse>>) => {
   const [issueState, setIssueState] = useState<string>(STATE_OPEN);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
