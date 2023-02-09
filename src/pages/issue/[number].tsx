@@ -88,6 +88,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   req,
 }) => {
   const requestComesFromServer = !req.url?.startsWith("/_next");
+  
   if (!requestComesFromServer)
     return {
       props: {

@@ -91,18 +91,21 @@ const Home = () => {
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const requestComesFromServer = !req.url?.startsWith("/_next");
+
   if (!requestComesFromServer)
     return {
       props: {},
     };
 
+  const searchParams = new URLSearchParams(req.url?.split('/?')[1])
+  
   const apolloClient = initializeApollo();
   try {
     await apolloClient.query({
       query: SEARCH_ISSUES_QUERY,
       variables: {
         after: undefined,
-        query: createSearchIssuesQueryString(STATE_OPEN, undefined),
+        query: createSearchIssuesQueryString(searchParams.get('issueState') || STATE_OPEN, searchParams.get('searchTerm') || undefined),
       },
     });
 

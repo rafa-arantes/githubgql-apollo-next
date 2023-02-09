@@ -1,3 +1,5 @@
+# Github Repos
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -11,24 +13,49 @@ yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<br />
+<br />
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Technological Stack
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- React
+- Typescript
+- NextJS
+- Apollo GraphQL
+- Styled Components
+- Day JS
+<br />
+<br />
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Proposed Design
 
-## Learn More
+![Alt text](design-examples.png)
+<br />
+<br />
+## Requirements
 
-To learn more about Next.js, take a look at the following resources:
+### Browse issues in a repo page
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Should show the list of issues, by default Open. Should paginate the list of issues and allow the filtering by open or closed state and by search term in the body or title of a issue.
+### Issue details page
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Issues page should have description from the issue, commentaries and user information from both the issue creator and the users that commented. Should also have the date of creation of the issue and from the commentaries, and allow pagination if there are many commentaries.
+<br />
+<br />
 
-## Deploy on Vercel
+## Plan
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Browse Issues page
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+SSR initial page of issues on load, CSR next user iteration (pagination or issue choice).
+Issues will be represented by cards that should have title, description (Up to 200 characters max), author (name, picture, url), status (Closed, Open).
+
+Page state should be persisted in the URL
+### Issue details page
+
+SSR issue details + 3 comments if page is not a next redirect, if it is should be CSR'd. Issue number and comments page should be specified in url.
+<br />
+<br />
+## Objective
+
+Hability to have SSR and CSR in the same application. Should be able to delivery metadata and the correct html to search engines, have decent lighthouse score while keeping a SPA experience, with no white page/delays between navigations, use CSR for navigation between pages and SSR for hard reloads, keep state between navigation and keep ssr params in sync with csr (pagination, searchTerms and issue states) through apollo cache and url params.

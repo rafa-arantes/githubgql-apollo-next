@@ -1,6 +1,7 @@
 export const issue_mock = {
   data: {
     repository: {
+      id: "ab",
       issue: {
         author: {
           avatarUrl:
@@ -15,6 +16,7 @@ export const issue_mock = {
         title: "Issue Title",
         updatedAt: "2022-09-16T09:17:58Z",
         comments: {
+          id: 'id2',
           pageInfo: {
             hasNextPage: true,
             endCursor: "Y3Vyc29yOnYyOpHOHSuczg==",

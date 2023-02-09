@@ -1,6 +1,7 @@
 export const search_issues_mock = {
   data: {
     search: {
+      id: 1,
       pageInfo: {
         hasNextPage: true,
         endCursor: "Y3Vyc29yOjU=",
@@ -126,12 +127,123 @@ export const search_issues_mock = {
 export const search_issues_last_page_mock = {
   data: {
     search: {
+      id: 2,
       pageInfo: {
         hasNextPage: false,
         endCursor: "Y3Vyc29yOjEw",
         __typename: "PageInfo",
       },
       edges: [
+        {
+          cursor: "Y3Vyc29yOjE=",
+          node: {
+            id: "I_kwDOAJy2Ks5WdnU7",
+            number: 25690,
+            closed: false,
+            state: "OPEN",
+            updatedAt: "2022-11-16T00:59:02Z",
+            title:
+              "Bug: Fetch | `Response` hangs with large responses due to usage of `Response.clone()` in `cachedFetch`",
+            bodyText:
+              'Looks like this is a known limitation in node-fetch where large responses hang when cloned.\nReact version: 18.3.0-next-4bd245e9e-20221104\nSteps To Reproduce\n\nTry with a large response\n\nCode example:\nconst response = await fetch("https://www.example.com/some-large-response");\nif (response.ok) {\n  const data = await response.text();\n}\nThe current behavior\nHanges with Response.text() in the above example\nThe expected behavior\nShouldn\'t hang',
+            author: {
+              avatarUrl:
+                "https://avatars.githubusercontent.com/u/62549492?u=0fef281992bca0daa967c88acda28e09cddd3577&v=4",
+              login: "alizeait",
+              url: "https://github.com/alizeait",
+              __typename: "User",
+            },
+            __typename: "Issue",
+          },
+          __typename: "SearchResultItemEdge",
+        },
+        {
+          cursor: "Y3Vyc29yOjI=",
+          node: {
+            id: "I_kwDOAJy2Ks5WcDY0",
+            number: 25687,
+            closed: false,
+            state: "OPEN",
+            updatedAt: "2022-11-15T22:46:28Z",
+            title: "Support All of Structure Clone in RSC Serialization",
+            bodyText:
+              "The React Server Components payload is a custom protocol that extends what is serializable beyond just JSON. Beyond just JSON we also support all React primitives (React.lazy, ReactNode) and global named symbols (Symbol.for). We also already have plan to expand this support with these as well:\n\nPromises\nTyped Arrays / DataView\nBigInt\nundefined, Infinity, NaN, -0\n\nWe don't have plans to make this algorithm pluggable from the outside because we're concerned about the complexity this puts on the ecosystem and that components won't be reusable in different contexts where they're not configured or configurations are conflicting.\nHowever, it might make sense to expand support to the types supported by the Structured clone algorithm which is already standardized and specified.\n\nCyclic references: We already support references in the protocol. This is mostly just an implementation detail for the perf cost whether something should be inlined as JSON or defined as a separate row.\nArrayBuffer: For Typed Arrays we might stick to using the underlying buffer coming from the stream instead of cloning the data. All values are considered immutable anyway. For ArrayBuffers we can't use that trick though so it would require a new clone of the data which might be a bit of a foot gun when switching between buffers and typed arrays.\nError objects: We already support thrown errors and we could support more errors in the encoding. However, we intentionally don't pass them through with all information. We cover them up with digests since the error message and stack can sometimes include sensitive information that only the server should have access to. We would likely have to do the same here.\nBoolean/String objects: We don't currently support the object wrappers around primitives e.g. new String(). You're not really supposed to use these in modern JS so it's kind of annoying to have to add extra code to handle this case.\nRegExp: These are pretty straightforward but can possibly have security implications.\nDate, Map, Set: These are fairly straightforward to serialize so it's mostly a matter of allowing these as special cases. Why are these special? Because Structured Clone says so.\n(Temporal: It seems appropriate that this would be added to structured clone but we need to confirm.)\n\nWe probably won't support Web specific APIs that don't necessarily have an equivalent on the Server or isn't directly transferrable such as if it has handles to local hardware or file system resources. The only one that might be easy to support:\n\nBlob: This would just be a wrapper around the raw buffer from the stream same as Typed Arrays. I don't think any servers really support this yet though so it would only once that's the case.",
+            author: {
+              avatarUrl:
+                "https://avatars.githubusercontent.com/u/63648?u=f1387d49fb1d3a6e7b26f0e5847eca5fa82c26a5&v=4",
+              login: "sebmarkbage",
+              url: "https://github.com/sebmarkbage",
+              __typename: "User",
+            },
+            __typename: "Issue",
+          },
+          __typename: "SearchResultItemEdge",
+        },
+        {
+          cursor: "Y3Vyc29yOjM=",
+          node: {
+            id: "I_kwDOAJy2Ks5WbDdS",
+            number: 25684,
+            closed: false,
+            state: "OPEN",
+            updatedAt: "2022-11-15T15:05:12Z",
+            title: "Bug: ",
+            bodyText:
+              "Strange and inconsistent behaviour of suspense boundary.\nReact version: 18\nSteps To Reproduce\n\nIf you run the application you will se a warning Text content did not match.\nDo one of the following things to fix the issue:\na. Wrap the Components2 in suspense in App.js.\nb. Change the type of DOM node returned by Component2.\nc. Remove the DOM node <h2>sdfsdf{val}</h2> in App.js file\n\nLink to code example:\nhttps://github.com/sachin-hg/react-suspense\nBranch Name => suspense\nThe current behavior\nSeems like if you throw a promise inside suspense, the suspense boundary is getting resolved with partial tree.\nThe expected behavior\nIf error is thrown inside suspense the whole tree which comes under that suspense boundary, should resolve fully and not in pieces. But some how deleting some html is also fixing this issue, not sure how suspense boundary is behaving. It will be really helpful if someone can explain what exactly is react doing and how it is resolving tree inside suspense boundary.",
+            author: {
+              avatarUrl: "https://avatars.githubusercontent.com/u/13482825?v=4",
+              login: "sachTyagi",
+              url: "https://github.com/sachTyagi",
+              __typename: "User",
+            },
+            __typename: "Issue",
+          },
+          __typename: "SearchResultItemEdge",
+        },
+        {
+          cursor: "Y3Vyc29yOjQ=",
+          node: {
+            id: "I_kwDOAJy2Ks5WXbpA",
+            number: 25682,
+            closed: false,
+            state: "OPEN",
+            updatedAt: "2022-11-15T08:13:36Z",
+            title: "Bug: `<img fetchPriority>` attribute is not supported",
+            bodyText:
+              'React version: 18.0.0\nSteps To Reproduce\n\nRender an <img src="#" fetchPriority="high" /> tag\n\n\nLink to code example: https://playcode.io/1011424\n\nThe current behavior\nA warning is logged:\nWarning: React does not recognize the `fetchPriority` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `fetchpriority` instead. If you accidentally passed it from a parent component, remove it from the DOM element.\n    at img\n    at div\n    at App\n\nThe expected behavior\nReact should recognize the fetchPriority prop and emit it as fetchpriority into HTML.\nTo be clear, using <img fetchpriority="high"> works and doesn’t log a warning. However, it is inconsistent with other DOM APIs. In the JS DOM API, the attribute is camel-cased as HTMLImageElement.fetchPriority.\nfetchPriority has been supported in Chromium browsers since Chromium 101 (Apr 26, 2022). Per Patrick Meenan, Mozilla is working on an implementation as well.',
+            author: {
+              avatarUrl:
+                "https://avatars.githubusercontent.com/u/2953267?u=eb2ca17f30b0616c9de9b36ea54fb65341c4eb06&v=4",
+              login: "iamakulov",
+              url: "https://github.com/iamakulov",
+              __typename: "User",
+            },
+            __typename: "Issue",
+          },
+          __typename: "SearchResultItemEdge",
+        },
+        {
+          cursor: "Y3Vyc29yOjU=",
+          node: {
+            id: "I_kwDOAJy2Ks5WS58X",
+            number: 25677,
+            closed: false,
+            state: "OPEN",
+            updatedAt: "2022-11-14T13:12:47Z",
+            title: "Bug: Portals doesn't participate in Suspense",
+            bodyText:
+              "It appears Portals does not participate in suspense. I came over this by accident, and I'm not sure if it's intended behavior or not. I could not find any documentation related to suspense and portals specifically.\n\nReact version: 18.2.0\nSteps To Reproduce\n\nCreate a component that can suspend, while also rendering a portal\nSuspend component\n\n\nLink to code example:\nhttps://codesandbox.io/s/youthful-tree-vikl09?file=/src/App.tsx\n\nThe current behavior\nPortal content rendered from a suspending component is visible if the component suspends.\nThe expected behavior\nPortal should behave like any other child and not be shown when it's under a suspense that fallbacks.",
+            author: {
+              avatarUrl:
+                "https://avatars.githubusercontent.com/u/11387548?u=d48f100314f3eec5866927f6071fe0fb5b3bc97c&v=4",
+              login: "h3rmanj",
+              url: "https://github.com/h3rmanj",
+              __typename: "User",
+            },
+            __typename: "Issue",
+          },
+          __typename: "SearchResultItemEdge",
+        },
         {
           cursor: "Y3Vyc29yOjY=",
           node: {

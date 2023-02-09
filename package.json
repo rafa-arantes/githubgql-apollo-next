@@ -1,5 +1,5 @@
 {
-  "name": "media-market-assignment",
+  "name": "github-gql-apollo-ts",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -30,6 +30,7 @@
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.8",
     "@types/styled-components": "^5.1.26",
+    "apollo": "^2.34.0",
     "eslint": "8.27.0",
     "eslint-config-next": "13.0.2",
     "eslint-plugin-unused-imports": "^2.0.0",

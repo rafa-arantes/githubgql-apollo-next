@@ -46,7 +46,7 @@ const IssueCard: FC<IssueCardProps> = ({
   return (
     <>
       <Spacer verticalSpacing="large" />
-      <Card>
+      <Card data-testid="issues-card">
         {showState && (
           <IssueCardHeader>
             <Tag background={state === STATE_OPEN ? "purple" : "red"}>
@@ -56,7 +56,7 @@ const IssueCard: FC<IssueCardProps> = ({
         )}
         {number ? (
           <Link href={`/issue/${number}`}>
-            <TitleText>{title}</TitleText>
+            <TitleText data-testid="titletest">{title}</TitleText>
           </Link>
         ) : (
           <TitleText>{title}</TitleText>

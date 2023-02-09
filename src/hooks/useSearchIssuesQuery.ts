@@ -1,5 +1,4 @@
 import { gql, useQuery } from "@apollo/client";
-import { useMemo } from "react";
 
 export const SEARCH_ISSUES_QUERY = gql`
   query SearchIssues($after: String $query: String!) {

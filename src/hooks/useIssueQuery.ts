@@ -3,6 +3,7 @@ import { gql, useQuery } from "@apollo/client";
 export const ISSUE_QUERY = gql`
   query GetIssue($number: Int! $after: String) {
     repository(name: "react", owner: "facebook") {
+      id
       issue(number: $number) {
         author {
           avatarUrl
@@ -66,6 +67,7 @@ type Node = {
 
 export type IssueResponse = {
   repository: {
+    id: string;
     issue: Node
   }
 };

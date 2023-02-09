@@ -1,4 +1,5 @@
 import { ApolloQueryResult } from "@apollo/client";
+import { GraphQLError } from "graphql";
 import { useCallback } from "react";
 
 type FetchMoreVariables = {
@@ -23,7 +24,7 @@ export const usePagination = (
         after,
         ...(variables || {}),
       },
-    });
+    }).catch(x => new GraphQLError(x));
   }, [fetchMore, after, variables, loading]);
 
   return handlePagination;

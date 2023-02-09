@@ -5,13 +5,20 @@ import {
 import { ThemeProvider } from "styled-components";
 import { MockedProvider } from "@apollo/client/testing";
 import userEvent from "@testing-library/user-event";
-import Home from "../../pages";
-import { dark } from "../../styles/themes/dark";
+import Home from "@pages/index";
+import { dark } from "@styles/themes/dark";
 import {
   search_issues_last_page_mock,
   search_issues_mock,
 } from "../../__mocks__/index.mock";
-import { SEARCH_ISSUES_QUERY } from "../../hooks/useSearchIssuesQuery";
+import { SEARCH_ISSUES_QUERY } from "@hooks/useSearchIssuesQuery";
+
+jest.mock("next/router", () => ({
+  ...jest.requireActual("next/router"),
+  useRouter: () => ({
+    query: {}
+  }),
+}));
 
 const mocks = [
   {
@@ -39,7 +46,7 @@ const mocks = [
 describe("Homepage Testing", () => {
   it("Renders loading", async () => {
     const screen = render(
-      <MockedProvider mocks={mocks}>
+      <MockedProvider addTypename={false} mocks={mocks}>
         <ThemeProvider theme={dark}>
           <Home />
         </ThemeProvider>
@@ -50,7 +57,7 @@ describe("Homepage Testing", () => {
 
   it("Shows IssueCard", async () => {
     const screen = render(
-      <MockedProvider mocks={mocks}>
+      <MockedProvider addTypename={false} mocks={mocks}>
         <ThemeProvider theme={dark}>
           <Home />
         </ThemeProvider>
@@ -64,7 +71,7 @@ describe("Homepage Testing", () => {
 
   it("Clicks on View More", async () => {
     const screen = render(
-      <MockedProvider mocks={mocks}>
+      <MockedProvider addTypename={false} mocks={mocks}>
         <ThemeProvider theme={dark}>
           <Home />
         </ThemeProvider>
@@ -82,6 +89,8 @@ describe("Homepage Testing", () => {
 
     // Expect View more to not be in the screen
     expect(screen.queryByText("View More")).not.toBeInTheDocument();
-    expect(screen.queryByText("Loading")).toBeInTheDocument();
+    expect(await screen.findByText("Loading")).toBeInTheDocument();
+
+    console.log(screen.queryAllByTestId("titletest").length)
   });
 });
